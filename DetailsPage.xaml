@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiCRUD_App.ViewModels"
+             xmlns:models="clr-namespace:MauiCRUD_App.Models"
+             x:DataType="vm:ProductsViewModel"
+             x:Class="MauiCRUD_App.DetailsPage"
+             Title="Warehouse Inventory">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="plus_icon.png"
+                     Command="{Binding SetOperatingProductCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, *">
+        <VerticalStackLayout Grid.RowSpan="2"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+            <Label Text="{Binding BusyText}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <Label Grid.Row="0"
+               Text="Products"
+               FontAttributes="Bold"
+               FontSize="24"
+               Margin="10"
+               Padding="10"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+
+        <Grid Grid.Row="1"
+              RowDefinitions="*, Auto">
+            <CollectionView Grid.Row="0"
+                            ItemsSource="{Binding Products}"
+                            Margin="10">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10"
+                                       Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <Frame Padding="10"
+                               CornerRadius="5"
+                               BorderColor="#CCCCCC"
+                               HasShadow="True"
+                               BackgroundColor="White">
+                            <Grid RowDefinitions="Auto, Auto"
+                                  ColumnDefinitions="*, Auto"
+                                  RowSpacing="5">
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="{Binding Name}"
+                                       FontAttributes="Bold"
+                                       FontSize="16"
+                                       TextColor="Black"/>
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       Text="{Binding Price, StringFormat='Amount: {0}'}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"/>
+
+                                <Button Grid.Row="0"
+                                        Grid.Column="1"
+                                        Text="Edit"
+                                        Padding="5"
+                                        HeightRequest="30"
+                                        FontSize="12"
+                                        CornerRadius="5"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=SetOperatingProductCommand}"
+                                        CommandParameter="{Binding .}"/>
+
+                                <Button Grid.Row="1"
+                                        Grid.Column="1"
+                                        Text="Del"
+                                        Padding="5"
+                                        HeightRequest="30"
+                                        FontSize="12"
+                                        CornerRadius="5"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=DeleteProductCommand}"
+                                        CommandParameter="{Binding Id}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <VerticalStackLayout HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             Margin="50">
+                            <Label Text="No Products Found"
+                                   FontSize="30"
+                                   FontAttributes="Bold"
+                                   Margin="100, 450, 100, 100"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <VerticalStackLayout Grid.Row="1"
+                     BackgroundColor="#FAFAFA"
+                     Padding="10">
+                <BoxView Color="#CCCCCC"
+             HeightRequest="1" />
+
+                <Grid RowDefinitions="Auto, Auto"
+          ColumnDefinitions="*, Auto"
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10">
+                    <VerticalStackLayout Grid.Row="0"
+                             Grid.Column="0">
+                        <Label
+                            Text="Name"
+                            TextColor="Black"/>
+                        <Frame BorderColor="#CCCCCC"
+                   CornerRadius="5"
+                   Padding="0"
+                   BackgroundColor="Transparent">
+                            <Entry Text="{Binding OperatingProduct.Name}"
+                       Placeholder="Product name"
+                       BackgroundColor="#EFEFEF"
+                       TextColor="Black"/>
+                        </Frame>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Row="0"
+                             Grid.Column="1">
+                        <Label
+                            Text="Amount"
+                            TextColor="Black"
+                                      />
+                        <Frame BorderColor="#CCCCCC"
+                   CornerRadius="5"
+                   Padding="0"
+                   BackgroundColor="Transparent">
+                            <Entry Text="{Binding OperatingProduct.Price}"
+                       Placeholder="0"
+                       BackgroundColor="#EFEFEF"
+                       Keyboard="Numeric"
+                       TextColor="Black"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Text="Create Product"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                CornerRadius="25"
+                Padding="20, 10, 20, 10"
+                BackgroundColor="#ab0c0c"
+                TextColor="White"
+                Command="{Binding SaveProductCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                             Binding="{Binding OperatingProduct.Id}"
+                             Value="0">
+                                <Setter Property="Text" Value="Create Product" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentPage>

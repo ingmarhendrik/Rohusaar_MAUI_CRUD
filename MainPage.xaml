@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiCRUD_App.MainPage"
+             Title="Eastern Dallas Technology"
+             BackgroundColor="#F5F5F5">
+
+    <ContentPage.Content>
+        <StackLayout
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="CenterAndExpand"
+            Padding="20"
+            Spacing="20">
+            <Label 
+                Text="Welcome to the Eastern Dallas Technology Intranet!"
+                FontSize="24"
+                TextColor="#333333"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"/>
+            <Button
+                Text="Warehouse Inventory"
+                BackgroundColor="darkred"
+                TextColor="White"
+                CornerRadius="10"
+                Padding="15"
+                FontSize="18"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="OnButton_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+    
+    
+    
+</ContentPage>
